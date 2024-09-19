@@ -4,6 +4,7 @@ import logging
 
 logging.basicConfig(level = logging.INFO, format = '[%(asctime)s]: %(message)s:')
 
+
 project_name = 'Hand_gesture_clf'
 
 list_of_files = [
@@ -21,6 +22,7 @@ list_of_files = [
     "requirements.txt",
     "setup.py",
     "research/trials.ipynb",
+    "templates/index.html"
 ]
 
 for filepath in list_of_files:
