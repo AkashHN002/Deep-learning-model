@@ -19,4 +19,10 @@ class PrepareBaseModelConfig:
     params_include_top: bool
     params_weight: str
     params_class: int
- 
+
+
+@dataclass(frozen= True)
+class PrepareCallbacksConfig:
+    root_dir:Path
+    tensorboard_root_log_dir:Path
+    checkpoint_model_filepath:Path
