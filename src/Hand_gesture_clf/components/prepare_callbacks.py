@@ -5,6 +5,7 @@ import tensorflow as tf
 import time
 from Hand_gesture_clf.entity.config_entity import PrepareCallbacksConfig
 
+
 class PrepareCallbacks:
     def __init__(self, config: PrepareCallbacksConfig):
         self.config = config
