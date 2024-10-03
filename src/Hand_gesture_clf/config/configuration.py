@@ -1,10 +1,12 @@
 from Hand_gesture_clf.constants import *
 import os
+from pathlib import Path
 from Hand_gesture_clf.utils.common import read_yaml, create_diorectories
 from Hand_gesture_clf.entity.config_entity import ( DataIngestionConfig,
                                                    PrepareBaseModelConfig,
                                                     PrepareCallbacksConfig,
-                                                    TrainingConfig)
+                                                    TrainingConfig,
+                                                    EvaluateConfig)
 
 class ConfigManager:
     def __init__(
@@ -83,3 +85,16 @@ class ConfigManager:
          )
         
         return training_config
+    
+
+
+    def get_validation_config(self) -> EvaluateConfig:
+        eval_config = EvaluateConfig(
+            path_of_model = Path("artifacts/training/model.h5"),
+            training_data= Path("artifacts\data_ingestion\HandGesture\images"),
+            all_params= self.params,
+            params_image_size=self.params.IMAGE_SIZE,
+            params_batch_size= 100
+        )
+
+        return eval_config
