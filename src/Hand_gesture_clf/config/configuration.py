@@ -68,7 +68,7 @@ class ConfigManager:
         training = self.config.training
         prepare_base_model = self.config.prepare_base_model
         params = self.params
-        training_data = os.path.join(self.config.data_ingestion.unzip_dir, "HandGesture")
+        training_data = os.path.join(self.config.data_ingestion.unzip_dir, "HandGesture\images")
 
         create_diorectories([Path(training.root_dir)])
 

@@ -1,0 +1,117 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/Hand_gesture_clf/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 581e6fe0363d6cd836fbc88b3882fbc5
+      size: 802
+    - path: src/Hand_gesture_clf/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 1de23ff4628581436d3b6bdaee810cd5
+      size: 900
+    outs:
+    - path: artifacts\data_ingestion\HandGesture
+      hash: md5
+      md5: b0d0f5fcfe3125e523e7010deb948aa9.dir
+      size: 22138360
+      nfiles: 3646
+  prepare_base_model:
+    cmd: python src/Hand_gesture_clf/pipeline/stage_02_prepare_base_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 581e6fe0363d6cd836fbc88b3882fbc5
+      size: 802
+    - path: src/Hand_gesture_clf/pipeline/stage_02_prepare_base_model.py
+      hash: md5
+      md5: 5f73f565968ce53ec832d8386df9787d
+      size: 985
+    params:
+      params.yaml:
+        CLASSES: 7
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.01
+        WEIGHTS: imagenet
+    outs:
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 50bc30c7148278caaefb3c7ad71bcd9e.dir
+      size: 118561008
+      nfiles: 2
+  training:
+    cmd: python src/Hand_gesture_clf/pipeline/stage_03_training.py
+    deps:
+    - path: artifacts/data_ingestion/HandGesture/images
+      hash: md5
+      md5: f7d1f0d605d2e803330b10c2b8223377.dir
+      size: 22138360
+      nfiles: 3646
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 50bc30c7148278caaefb3c7ad71bcd9e.dir
+      size: 118561008
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 581e6fe0363d6cd836fbc88b3882fbc5
+      size: 802
+    - path: src/Hand_gesture_clf/components/prepare_callbacks.py
+      hash: md5
+      md5: 794703a478d3e39d89179aa78c7e32d3
+      size: 1016
+    - path: src/Hand_gesture_clf/pipeline/stage_03_training.py
+      hash: md5
+      md5: 61479850518f8a5d5bdd3fc8b9ef5680
+      size: 1186
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 16
+        EPOCHS: 1
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 2bbd6d144a3dccfe14a602bb584b8eff
+      size: 60344240
+  evaluation:
+    cmd: python src/Hand_gesture_clf/pipeline/stage_04_evaluation.py
+    deps:
+    - path: artifacts/data_ingestion/HandGesture/images
+      hash: md5
+      md5: f7d1f0d605d2e803330b10c2b8223377.dir
+      size: 22138360
+      nfiles: 3646
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: 2bbd6d144a3dccfe14a602bb584b8eff
+      size: 60344240
+    - path: config/config.yaml
+      hash: md5
+      md5: 581e6fe0363d6cd836fbc88b3882fbc5
+      size: 802
+    - path: src/Hand_gesture_clf/pipeline/stage_04_evaluation.py
+      hash: md5
+      md5: 17b1a8e1f38f97bc096c6addfc846ad6
+      size: 885
+    params:
+      params.yaml:
+        BATCH_SIZE: 16
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: ef634aa6c15f664fd3b89d204fbf0279
+      size: 72

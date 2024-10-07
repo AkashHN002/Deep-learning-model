@@ -22,4 +22,12 @@ class ModelTrainingPipeline:
         training.train(
             callback_list=call_back_list
         )
-    
+        
+try:
+    logger.info(f"************************")
+    logger.info(f">>>>>>>>>>>>>>Stage {STAGE_NAME} strted<<<<<<<<<<<<<")
+    obj  =ModelTrainingPipeline()
+    obj.main()
+    logger.info(f">>>>>>>>> Stage {STAGE_NAME} compleated<<<<<<<<<<<<<<")
+except Exception as e:
+    raise e

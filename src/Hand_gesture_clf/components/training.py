@@ -80,4 +80,3 @@ class Training:
             model = self.model
         )
 
-
